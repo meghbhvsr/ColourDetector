@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Recognition</title>
+</head>
+<body>
+    <h1>Color Recognition</h1>
+    <img src="{{ url_for('static', filename='ui_images/blue1.png') }}" class="color-img" data-color="blue">
+    <img src="{{ url_for('static', filename='ui_images/red1.png') }}" class="color-img" data-color="red">
+    <img src="{{ url_for('static', filename='ui_images/green1.png') }}" class="color-img" data-color="green">
+
+    <div id="result"></div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $('.color-img').click(function() {
+            var imgSrc = $(this).attr('src');
+
+            console.log(imgSrc);
+            $.ajax({
+                url: '/predict_color',
+                type: 'POST',
+                data: {
+                    imageSrc: imgSrc
+                },
+                success: function(response) {
+                    $('#result').text('Predicted color: ' + response.color);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
